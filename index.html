@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harshith Gowda Muniraj | Full Stack & Data Engineer</title>
+  <meta name="description" content="Harshith Gowda Muniraj — Full Stack & Data Engineer in Melbourne. The journey from engineering to Trigent, Monash, Biom and the Pfizer externship." />
+  <meta property="og:title" content="Harshith Gowda Muniraj | Full Stack & Data Engineer" />
+  <meta property="og:description" content="From engineering student to full-stack engineer to data engineer — the journey so far." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    /* ================= THEME ================= */
+    :root, [data-theme="dark"] {
+      --bg: #08080a;
+      --surface: #111114;
+      --surface-2: #17171c;
+      --border: rgba(255,255,255,.08);
+      --text: #f4f4f6;
+      --muted: #9b9ba7;
+      --accent: #7c7ff7;
+      --accent-2: #a5a7ff;
+      --glow: rgba(124,127,247,.35);
+      --grid: rgba(255,255,255,.025);
+    }
+    [data-theme="light"] {
+      --bg: #f7f7fb;
+      --surface: #ffffff;
+      --surface-2: #f0f0f6;
+      --border: rgba(10,10,30,.09);
+      --text: #111118;
+      --muted: #5d5d6c;
+      --accent: #5b5ef0;
+      --accent-2: #4245d6;
+      --glow: rgba(91,94,240,.22);
+      --grid: rgba(10,10,30,.035);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.6;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      transition: background .4s, color .4s;
+    }
+    body::before { /* faint grid like the reference */
+      content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%);
+    }
+    a { color: inherit; text-decoration: none; }
+    .mono { font-family: "JetBrains Mono", monospace; }
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .accent { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+    /* ================= NAV ================= */
+    header.top {
+      position: fixed; inset: 0 0 auto 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 32px;
+    }
+    .brand { font-weight: 700; letter-spacing: -.02em; }
+    .brand span { color: var(--accent); }
+    .pill-nav {
+      display: flex; gap: 4px; padding: 6px;
+      background: color-mix(in srgb, var(--surface) 75%, transparent);
+      backdrop-filter: blur(14px); border: 1px solid var(--border); border-radius: 999px;
+    }
+    .pill-nav a { padding: 8px 16px; border-radius: 999px; font-size: .9rem; color: var(--muted); transition: .2s; }
+    .pill-nav a:hover, .pill-nav a.active { color: var(--text); background: var(--surface-2); }
+    .theme-toggle {
+      width: 56px; height: 30px; border-radius: 999px; border: 1px solid var(--border);
+      background: var(--surface); cursor: pointer; position: relative;
+    }
+    .theme-toggle::after {
+      content: "☾"; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%;
+      display: grid; place-items: center; font-size: 13px; color: #fff;
+      background: var(--accent); box-shadow: 0 0 14px var(--glow); transition: transform .3s;
+    }
+    [data-theme="light"] .theme-toggle::after { content: "☀"; transform: translateX(26px); }
+
+    /* ================= HERO ================= */
+    .hero { padding: 150px 0 60px; text-align: center; position: relative; }
+    .hero::before {
+      content: ""; position: absolute; left: 50%; top: 60px; width: 700px; height: 400px; transform: translateX(-50%);
+      background: radial-gradient(closest-side, var(--glow), transparent); filter: blur(40px); z-index: -1; opacity: .7;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--surface);
+      font-size: .72rem; letter-spacing: .16em; color: var(--muted); text-transform: uppercase;
+    }
+    .badge b { color: var(--accent); font-weight: 600; }
+    .hero h1 { font-size: clamp(2.8rem, 8vw, 6rem); font-weight: 800; letter-spacing: -.045em; line-height: 1; margin: 26px 0 22px; }
+    .hero p.sub { color: var(--muted); font-size: 1.15rem; max-width: 600px; margin: 0 auto; }
+
+    /* hero roadmap preview: glowing curved route with floating stop cards */
+    .route { position: relative; height: 330px; margin-top: 60px; }
+    .route svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .route .base { fill: none; stroke: var(--border); stroke-width: 2; stroke-dasharray: 4 8; }
+    .route .live { fill: none; stroke: url(#routeGrad); stroke-width: 3; filter: drop-shadow(0 0 8px var(--glow)); }
+    .chip {
+      position: absolute; transform: translate(-50%, -50%);
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 10px 14px; text-align: left; min-width: 128px;
+      box-shadow: 0 0 0 1px rgba(0,0,0,.2), 0 18px 40px rgba(0,0,0,.35), 0 0 30px var(--glow);
+      opacity: 0; animation: pop .6s forwards; transition: transform .3s;
+    }
+    .chip:hover { transform: translate(-50%, -58%); }
+    .chip small { display: block; font-size: .62rem; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; }
+    .chip strong { font-size: .98rem; letter-spacing: -.01em; }
+    .chip .dot { position: absolute; left: 50%; bottom: -26px; width: 10px; height: 10px; border-radius: 50%; transform: translateX(-50%); background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+    .chip.below .dot { bottom: auto; top: -26px; }
+    @keyframes pop { from { opacity: 0; translate: 0 12px; } to { opacity: 1; translate: 0 0; } }
+    .scroll-cue { margin-top: 30px; font-size: .7rem; letter-spacing: .3em; color: var(--muted); }
+    .scroll-cue::after { content: ""; display: block; width: 1px; height: 40px; margin: 10px auto 0; background: linear-gradient(var(--accent), transparent); animation: cue 2s infinite; }
+    @keyframes cue { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+    /* ================= SECTIONS ================= */
+    section { padding: 110px 0; }
+    .eyebrow { font-size: .75rem; letter-spacing: .2em; color: var(--accent); text-transform: uppercase; font-weight: 600; }
+    h2.big { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -.04em; line-height: 1.05; margin: 14px 0 18px; }
+    .lead { color: var(--muted); font-size: 1.1rem; max-width: 620px; }
+
+    /* reveal on scroll (only hidden when JS is running) */
+    .js .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+    .js .reveal.in { opacity: 1; transform: none; }
+
+    /* ---------- ABOUT ---------- */
+    .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: start; }
+    .profile { background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 28px; }
+    .profile .avatar {
+      width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center;
+      font-weight: 800; font-size: 1.4rem; color: #fff;
+      background: linear-gradient(135deg, var(--accent), #3b3fd8); box-shadow: 0 0 30px var(--glow);
+    }
+    .profile h3 { margin-top: 16px; font-size: 1.25rem; letter-spacing: -.02em; }
+    .profile .loc { color: var(--muted); font-size: .9rem; }
+    .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .stats span { font-size: .8rem; padding: 6px 12px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); }
+    .skill-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 36px; }
+    .skill-cols h4 { font-size: .72rem; letter-spacing: .18em; color: var(--muted); margin-bottom: 12px; }
+    .skill-cols li { list-style: none; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: .95rem; display: flex; gap: 10px; }
+    .skill-cols li::before { content: "→"; color: var(--accent); }
+    .btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 999px;
+      font-weight: 600; font-size: .92rem; border: 1px solid var(--border); background: var(--surface);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.primary { background: var(--accent); color: #fff; border-color: transparent; box-shadow: 0 8px 30px var(--glow); }
+
+    /* ---------- JOURNEY ---------- */
+    .journey-head { text-align: center; margin-bottom: 80px; }
+    .journey-head .lead { margin: 0 auto; }
+    .track { position: relative; }
+    .track .rail, .track .fill {
+      position: absolute; left: 50%; top: 0; width: 2px; transform: translateX(-50%); border-radius: 2px;
+    }
+    .track .rail { bottom: 0; background: var(--border); }
+    .track .fill { height: 0; background: linear-gradient(var(--accent-2), var(--accent)); box-shadow: 0 0 16px var(--accent); }
+    .track .traveller {
+      position: absolute; left: 50%; top: 0; width: 16px; height: 16px; border-radius: 50%; transform: translate(-50%, -50%);
+      background: #fff; box-shadow: 0 0 0 5px var(--accent), 0 0 30px 6px var(--accent); z-index: 3;
+    }
+    .stop { position: relative; display: grid; grid-template-columns: 1fr 90px 1fr; align-items: start; margin-bottom: 70px; }
+    .stop .node {
+      grid-column: 2; justify-self: center; z-index: 2;
+      width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center;
+      background: var(--surface); border: 1px solid var(--border); font-size: .85rem; color: var(--muted);
+      transition: .4s;
+    }
+    .stop.passed .node { color: #fff; background: var(--accent); border-color: transparent; box-shadow: 0 0 26px var(--glow); }
+    .stop .side { padding-top: 14px; }
+    .stop .side .when { font-size: .8rem; color: var(--muted); }
+    .stop .side .phase { font-size: 1.6rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; margin-top: 4px; }
+    .stop:nth-child(odd) .card { grid-column: 1; grid-row: 1; }
+    .stop:nth-child(odd) .side { grid-column: 3; grid-row: 1; }
+    .stop:nth-child(even) .card { grid-column: 3; grid-row: 1; }
+    .stop:nth-child(even) .side { grid-column: 1; grid-row: 1; text-align: right; }
+
+    .card {
+      position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 22px;
+      padding: 28px; overflow: hidden; transition: transform .35s, border-color .35s, box-shadow .35s;
+    }
+    .card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 50%, transparent); box-shadow: 0 30px 60px rgba(0,0,0,.35), 0 0 40px var(--glow); }
+    .card .tag { font-size: .68rem; letter-spacing: .18em; color: var(--accent); font-weight: 600; text-transform: uppercase; }
+    .card h3 { font-size: 1.35rem; letter-spacing: -.025em; margin: 8px 0 2px; }
+    .card .where { color: var(--muted); font-size: .92rem; }
+    .card .role { margin-top: 14px; font-weight: 500; font-size: .95rem; }
+    .card ul { margin: 12px 0 0 0; }
+    .card li { list-style: none; position: relative; padding-left: 18px; margin-bottom: 7px; font-size: .93rem; color: color-mix(in srgb, var(--text) 82%, var(--muted)); }
+    .card li::before { content: ""; position: absolute; left: 0; top: .65em; width: 6px; height: 6px; border-radius: 2px; background: var(--accent); }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .chips span { font-size: .72rem; padding: 4px 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); }
+    .card a.more { display: inline-block; margin-top: 14px; font-size: .88rem; color: var(--accent); font-weight: 600; }
+    /* "hover to reveal the outcome" panel, like the reference's Impact Quadrant */
+    .outcome {
+      position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 28px;
+      background: linear-gradient(90deg, var(--accent), #4b4ee6); color: #fff;
+      font-weight: 600; font-size: .95rem; transform: translateY(101%); transition: transform .4s cubic-bezier(.2,.7,.2,1);
+    }
+    .outcome small { display: block; font-size: .65rem; letter-spacing: .18em; opacity: .8; font-weight: 500; }
+    .card:hover .outcome, .card:focus-within .outcome { transform: none; }
+    .card.todo { border-style: dashed; border-color: var(--accent); }
+    .live-badge { display: inline-flex; align-items: center; gap: 6px; font-size: .68rem; letter-spacing: .14em; color: #3ddc97; margin-left: 8px; }
+    .live-badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #3ddc97; box-shadow: 0 0 10px #3ddc97; animation: blink 1.4s infinite; }
+    @keyframes blink { 50% { opacity: .3; } }
+    .hint { text-align: center; color: var(--muted); font-size: .85rem; margin-top: -40px; margin-bottom: 60px; }
+
+    /* ---------- METRIC LEDGER ---------- */
+    .ledger-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; flex-wrap: wrap; margin-bottom: 50px; }
+    .ledger { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--border); }
+    .metric { padding: 34px 24px 10px 0; border-right: 1px solid var(--border); }
+    .metric + .metric { padding-left: 24px; }
+    .metric:last-child { border-right: 0; }
+    .metric .num { font-size: clamp(2.6rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -.05em; line-height: 1; }
+    .metric .label { margin-top: 12px; font-weight: 600; }
+    .metric .ctx { color: var(--muted); font-size: .85rem; }
+
+    /* ---------- CONTACT ---------- */
+    .cta-box {
+      text-align: center; padding: 90px 30px; border-radius: 32px; border: 1px solid var(--border);
+      background: radial-gradient(600px 300px at 50% 0%, var(--glow), transparent), var(--surface);
+    }
+    .cta-box .btns { justify-content: center; }
+    footer { padding: 40px 0 60px; display: flex; justify-content: space-between; color: var(--muted); font-size: .85rem; flex-wrap: wrap; gap: 10px; }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 860px) {
+      .pill-nav { display: none; }
+      header.top { padding: 14px 20px; background: color-mix(in srgb, var(--bg) 80%, transparent); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+      .hint { display: none; }
+      .about-grid, .skill-cols { grid-template-columns: 1fr; }
+      .route { display: none; }
+      .track .rail, .track .fill, .track .traveller { left: 27px; }
+      .stop { grid-template-columns: 54px 1fr; column-gap: 18px; }
+      .stop .node { grid-column: 1; grid-row: 1 / span 2; align-self: start; }
+      .stop:nth-child(n) .side { grid-column: 2; grid-row: 1; text-align: left; padding-top: 0; margin-bottom: 12px; }
+      .stop:nth-child(n) .card { grid-column: 2; grid-row: 2; }
+      .ledger { grid-template-columns: 1fr 1fr; }
+      .metric:nth-child(2) { border-right: 0; }
+      .metric:nth-child(3) { padding-left: 0; }
+      .outcome { position: static; transform: none; margin: 18px -28px -28px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .js .reveal { opacity: 1; transform: none; }
+      .chip { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    document.documentElement.classList.add("js");
+    try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+
+  <header class="top">
+    <a href="#top" class="brand">Harshith<span>.</span>Gowda</a>
+    <nav class="pill-nav">
+      <a href="#about">About</a>
+      <a href="#journey">Journey</a>
+      <a href="#impact">Impact</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark theme"></button>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <span class="badge"><b>✦</b> Full Stack &amp; Data Engineer</span>
+      <h1>From first commit<br /><span class="accent">to real data</span></h1>
+      <p class="sub">I'm Harshith, an engineer in Melbourne who builds web apps, data pipelines and AI document tools. Here's the road that got me here.</p>
+
+      <div class="route" id="route">
+        <svg viewBox="0 0 1000 330" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="routeGrad" x1="0" x2="1">
+              <stop offset="0" stop-color="#5b5ef0" /><stop offset="1" stop-color="#b3b5ff" />
+            </linearGradient>
+          </defs>
+          <path class="base" id="routePath" d="M20,250 C150,250 150,90 300,110 S460,260 560,220 S720,60 830,90 S960,200 990,160" />
+          <path class="live" id="routeLive" d="M20,250 C150,250 150,90 300,110 S460,260 560,220 S720,60 830,90 S960,200 990,160" />
+        </svg>
+      </div>
+      <div class="scroll-cue">SCROLL</div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about">
+    <div class="wrap about-grid">
+      <div class="reveal">
+        <span class="eyebrow">About</span>
+        <h2 class="big">I turn messy data and complex requirements into <span class="accent">software people use.</span></h2>
+        <p class="lead">Software engineer with two years of commercial full-stack experience at Trigent and a Master of Data Science from Monash. These days I build data pipelines and AI-powered document-extraction prototypes.</p>
+        <div class="skill-cols">
+          <div>
+            <h4>ENGINEERING</h4>
+            <ul>
+              <li>React, Angular, Next.js, TypeScript</li>
+              <li>Node.js, NestJS, Go, Flask</li>
+              <li>AWS: Lambda, S3, SQS, API Gateway</li>
+              <li>Docker, Jenkins, GitHub Actions</li>
+              <li>Vitest, Playwright, Jest</li>
+            </ul>
+          </div>
+          <div>
+            <h4>DATA &amp; AI</h4>
+            <ul>
+              <li>Databricks, Spark, Kafka</li>
+              <li>PostgreSQL, SQL Server, MySQL, MongoDB</li>
+              <li>scikit-learn, TensorFlow</li>
+              <li>OCR, PyMuPDF, RAG and LLMs</li>
+              <li>Power BI</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <aside class="profile reveal">
+        <div class="avatar">HG</div>
+        <h3>Harshith Gowda Muniraj</h3>
+        <div class="loc">📍 Melbourne, VIC</div>
+        <div class="stats">
+          <span>2 yrs commercial</span><span>Master of Data Science</span><span>Full stack + data</span>
+        </div>
+        <p class="lead" style="font-size:.95rem;margin-top:22px">Want the full details? Grab my résumé or connect with me directly.</p>
+        <div class="btns">
+          <a class="btn primary" href="resume.pdf" target="_blank">Download résumé ↓</a>
+          <a class="btn" href="https://www.linkedin.com/in/harshith-gowda-m-95a21922a" target="_blank" rel="noopener">LinkedIn ↗</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= JOURNEY ================= -->
+  <section id="journey">
+    <div class="wrap">
+      <div class="journey-head reveal">
+        <span class="eyebrow">The Journey</span>
+        <h2 class="big">Six stops.<br /><span class="accent">One direction.</span></h2>
+        <p class="lead">Follow the line from my first engineering classroom to the work I'm doing right now.</p>
+      </div>
+      <p class="hint">Hover any card to reveal the outcome.</p>
+      <div class="track" id="track">
+        <div class="rail"></div>
+        <div class="fill" id="fill"></div>
+        <div class="traveller" id="traveller"></div>
+        <!-- stops are generated from JOURNEY below -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= IMPACT ================= -->
+  <section id="impact">
+    <div class="wrap">
+      <div class="ledger-head reveal">
+        <div>
+          <span class="eyebrow">The Metric Ledger</span>
+          <h2 class="big">Work that<br /><span class="accent">moves numbers.</span></h2>
+        </div>
+        <p class="lead" style="max-width:380px">Results from production systems, research models and live projects along the way.</p>
+      </div>
+      <div class="ledger reveal">
+        <div class="metric"><div class="num" data-to="2" data-suffix=" yrs">0</div><div class="label">Commercial full stack</div><div class="ctx">Trigent Software Solutions</div></div>
+        <div class="metric"><div class="num" data-to="95" data-suffix="%">0</div><div class="label">Validation accuracy</div><div class="ctx">Clinical diagnostic classifier</div></div>
+        <div class="metric"><div class="num" data-to="0.85" data-decimals="2">0</div><div class="label">F1 score</div><div class="ctx">Content moderation pipeline</div></div>
+        <div class="metric"><div class="num" data-to="6">0</div><div class="label">Stops on the road</div><div class="ctx">And the next one is open</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="cta-box reveal">
+        <span class="eyebrow">Next stop</span>
+        <h2 class="big">Let's build<br /><span class="accent">what's next.</span></h2>
+        <p class="lead" style="margin:0 auto">Open to full-stack, data engineering and ML engineering roles in Melbourne. Reach out on LinkedIn or send me a note.</p>
+        <div class="btns">
+          <a class="btn primary" href="mailto:harshithgowda495@gmail.com">Send me an email</a>
+          <a class="btn" href="https://www.linkedin.com/in/harshith-gowda-m-95a21922a" target="_blank" rel="noopener">Connect on LinkedIn ↗</a>
+          <a class="btn" href="https://github.com/Harshith495" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+      <footer>
+        <span>© <span id="year"></span> Harshith Gowda Muniraj. Built from scratch.</span>
+        <span>Melbourne, Australia</span>
+      </footer>
+    </div>
+  </section>
+
+  <script>
+    /* =========================================================
+       EDIT YOUR JOURNEY HERE. Each object is one stop on the road.
+       short   = label on the hero route
+       outcome = the line revealed when someone hovers the card
+       todo: true gives the card a dashed outline until you fill it in
+       ========================================================= */
+    const JOURNEY = [
+      {
+        short: "B.E. · VTU", when: "2018 – 2022", phase: "Where it started",
+        tag: "Education", title: "Bachelor of Engineering, Computer Science",
+        where: "Visvesvaraya Technological University, India",
+        points: [
+          "Foundations in data structures, algorithms, DBMS, operating systems and networks",
+          "TODO: add a highlight (GPA, a club, a hackathon)"
+        ],
+        chips: ["C", "Java", "Python", "SQL"],
+        outcome: "Graduated in 2022 and went straight into industry"
+      },
+      {
+        short: "Final-year project", when: "2021 – 2022", phase: "First real build",
+        tag: "Engineering Project", title: "TODO: Final-year project name",
+        where: "Final-year engineering project, VTU",
+        points: [
+          "TODO: the problem you solved, in one line",
+          "TODO: what you built and your part in the team",
+          "TODO: the result (demo, grade, award or users)"
+        ],
+        chips: ["TODO", "tech", "stack"],
+        outcome: "TODO: one-line result",
+        todo: true
+      },
+      {
+        short: "Trigent · 2 yrs", when: "Aug 2022 – Jun 2024", phase: "Shipping for clients",
+        tag: "Professional Experience", title: "Software Engineer (Full Stack)",
+        where: "Trigent Software Solutions",
+        role: "Role: building and shipping enterprise web apps for international clients",
+        points: [
+          "Built front ends in React and Angular with TypeScript",
+          "Developed back-end services with Node.js and NestJS",
+          "Designed and queried SQL Server and MySQL databases",
+          "Ran production workloads on AWS: Lambda, SQS, S3 and API Gateway",
+          "TODO: one measurable win (load time cut by X%, N features shipped)"
+        ],
+        chips: ["React", "Angular", "TypeScript", "NestJS", "SQL Server", "AWS"],
+        outcome: "Two years of production code for international clients"
+      },
+      {
+        short: "Monash · MDS", when: "2024 – 2026", phase: "Levelling up in data",
+        tag: "Master's Degree", title: "Master of Data Science",
+        where: "Monash University, Melbourne",
+        points: [
+          "WildAtlas: owned end to end, from requirements to deployment and support. React 19 + TypeScript front end, tested with Vitest and Playwright",
+          "Clinical Diagnostic Classifier: SVM, ANN and CNN models served through Flask",
+          "Content Moderation Classifier: full Python pipeline from ingestion to evaluation",
+          "SQL Server Data Warehouse: bronze/silver/gold ETL with a star schema"
+        ],
+        chips: ["Python", "scikit-learn", "TensorFlow", "Spark", "React 19"],
+        link: { href: "https://wildatlas.live/dashboard", text: "Visit WildAtlas ↗" },
+        outcome: "Up to 95% validation accuracy and F1 ≈ 0.85 in production-style pipelines"
+      },
+      {
+        short: "Biom", when: "Aug 2024 – Jun 2026", phase: "Building a platform",
+        tag: "Biom Project", title: "Full Stack Developer & Data Engineer",
+        where: "Biom · Monash Data Science & AI Society (part-time)",
+        role: "Role: data engineering and back end for a species-data platform",
+        points: [
+          "Built a Databricks + PySpark pipeline to ingest and clean species data",
+          "Built the Go and PostgreSQL back end that serves it",
+          "TODO: scale or impact (records processed, users, team size)"
+        ],
+        chips: ["Databricks", "PySpark", "Go", "PostgreSQL"],
+        outcome: "Species data turned into a queryable platform"
+      },
+      {
+        short: "Pfizer · Extern", when: "2026 – Now", phase: "Right now", live: true,
+        tag: "Externship", title: "AI-Powered Document Insights & Data Extraction",
+        where: "Pfizer (Advanced) · via Extern",
+        points: [
+          "Building an OCR document-extraction prototype over pharmaceutical documentation, with retrieval and a chat interface",
+          "Extracted text and bounding boxes from multi-page PDFs with PyMuPDF, using heuristics to locate fields",
+          "Built a Colab notebook on Pandas cleaning, nested JSON parsing and image pre-processing for OCR",
+          "Wrote an explainer on LLM tokenization, attention and next-token generation"
+        ],
+        chips: ["Python", "OCR", "PyMuPDF", "RAG", "LLMs"],
+        outcome: "Pharma documents you can search and chat with"
+      }
+    ];
+
+    /* ---------- theme toggle ---------- */
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem("theme", next); } catch (e) {}
+    });
+
+    /* ---------- build the journey ---------- */
+    const track = document.getElementById("track");
+    JOURNEY.forEach((s, i) => {
+      const el = document.createElement("article");
+      el.className = "stop reveal";
+      el.innerHTML = `
+        <div class="side"><div class="when mono">${s.when}</div><div class="phase">${s.phase}</div></div>
+        <div class="node mono">${String(i + 1).padStart(2, "0")}</div>
+        <div class="card ${s.todo ? "todo" : ""}" tabindex="0">
+          <span class="tag">${s.tag}</span>${s.live ? '<span class="live-badge">IN PROGRESS</span>' : ""}
+          <h3>${s.title}</h3>
+          <div class="where">${s.where}</div>
+          ${s.role ? `<div class="role">${s.role}</div>` : ""}
+          <ul>${s.points.map(p => `<li>${p}</li>`).join("")}</ul>
+          <div class="chips">${s.chips.map(c => `<span>${c}</span>`).join("")}</div>
+          ${s.link ? `<a class="more" href="${s.link.href}" target="_blank" rel="noopener">${s.link.text}</a>` : ""}
+          <div class="outcome"><small>OUTCOME</small>${s.outcome}</div>
+        </div>`;
+      track.appendChild(el);
+    });
+
+    /* ---------- hero route: place a floating chip at each stop ---------- */
+    const route = document.getElementById("route");
+    const path = document.getElementById("routePath");
+    const live = document.getElementById("routeLive");
+    const len = path.getTotalLength();
+    live.style.strokeDasharray = len;
+    live.style.strokeDashoffset = len;
+    live.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], { duration: 2400, easing: "cubic-bezier(.6,.1,.2,1)", fill: "forwards" });
+    JOURNEY.forEach((s, i) => {
+      const p = path.getPointAtLength(len * (0.06 + i * 0.176));
+      const chip = document.createElement("div");
+      const below = p.y < 165;
+      chip.className = "chip" + (below ? " below" : "");
+      chip.style.left = (p.x / 10) + "%";
+      chip.style.top = `calc(${(p.y / 330) * 100}% ${below ? "+ 52px" : "- 52px"})`;
+      chip.style.animationDelay = (0.3 + i * 0.35) + "s";
+      chip.innerHTML = `<small>${String(i + 1).padStart(2, "0")} · ${s.when.split(" – ")[0]}</small><strong>${s.short}</strong><span class="dot"></span>`;
+      chip.addEventListener("click", () => track.children[i + 3].scrollIntoView({ behavior: "smooth", block: "center" }));
+      chip.style.cursor = "pointer";
+      route.appendChild(chip);
+    });
+
+    /* ---------- reveal on scroll ---------- */
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+    /* ---------- journey line fills + traveller moves as you scroll ---------- */
+    const fill = document.getElementById("fill");
+    const traveller = document.getElementById("traveller");
+    const stops = [...document.querySelectorAll(".stop")];
+    function onScroll() {
+      const r = track.getBoundingClientRect();
+      const y = Math.min(Math.max(window.innerHeight * 0.55 - r.top, 0), r.height);
+      fill.style.height = y + "px";
+      traveller.style.top = y + "px";
+      stops.forEach(s => s.classList.toggle("passed", s.offsetTop + 27 <= y));
+      // highlight current nav link
+      document.querySelectorAll(".pill-nav a").forEach(a => {
+        const sec = document.querySelector(a.getAttribute("href"));
+        const b = sec.getBoundingClientRect();
+        a.classList.toggle("active", b.top < innerHeight * 0.4 && b.bottom > innerHeight * 0.4);
+      });
+    }
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", onScroll);
+    onScroll();
+
+    /* ---------- count-up numbers in the ledger ---------- */
+    const counter = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target, to = +el.dataset.to, dec = +(el.dataset.decimals || 0), suf = el.dataset.suffix || "";
+      const t0 = performance.now();
+      (function tick(t) {
+        const k = Math.min((t - t0) / 1600, 1), v = to * (1 - Math.pow(1 - k, 3));
+        el.textContent = v.toFixed(dec) + suf;
+        if (k < 1) requestAnimationFrame(tick);
+      })(t0);
+      counter.unobserve(el);
+    }), { threshold: 0.5 });
+    document.querySelectorAll(".num").forEach(n => counter.observe(n));
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
