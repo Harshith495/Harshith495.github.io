@@ -368,9 +368,9 @@
       </div>
       <div class="ledger reveal">
         <div class="metric"><div class="num" data-to="2" data-suffix=" yrs">0</div><div class="label">Commercial full stack</div><div class="ctx">Trigent Software Solutions</div></div>
-        <div class="metric"><div class="num" data-to="95" data-suffix="%">0</div><div class="label">Validation accuracy</div><div class="ctx">Clinical diagnostic classifier</div></div>
+        <div class="metric"><div class="num" data-to="95" data-suffix="%">0</div><div class="label">Validation accuracy</div><div class="ctx">Breast cancer classifier (CNN)</div></div>
         <div class="metric"><div class="num" data-to="0.85" data-decimals="2">0</div><div class="label">F1 score</div><div class="ctx">Content moderation pipeline</div></div>
-        <div class="metric"><div class="num" data-to="6">0</div><div class="label">Stops on the road</div><div class="ctx">And the next one is open</div></div>
+        <div class="metric"><div class="num" data-to="30" data-suffix="%">0</div><div class="label">Faster load times</div><div class="ctx">Service refactor at Trigent</div></div>
       </div>
     </div>
   </section>
@@ -409,38 +409,40 @@
         where: "Visvesvaraya Technological University, India",
         points: [
           "Foundations in data structures, algorithms, DBMS, operating systems and networks",
-          "TODO: add a highlight (GPA, a club, a hackathon)"
+          "Graduated with a CGPA of 8.35 / 10"
         ],
         chips: ["C", "Java", "Python", "SQL"],
         outcome: "Graduated in 2022 and went straight into industry"
       },
       {
         short: "Final-year project", when: "2021 – 2022", phase: "First real build",
-        tag: "Engineering Project", title: "TODO: Final-year project name",
-        where: "Final-year engineering project, VTU",
+        tag: "Engineering Project", title: "Clinical Diagnostic Classifier: Breast Cancer Detection",
+        where: "Final-year project, VTU · built for a client with a partner team",
+        role: "Role: image processing, model building and the inference web app",
         points: [
-          "TODO: the problem you solved, in one line",
-          "TODO: what you built and your part in the team",
-          "TODO: the result (demo, grade, award or users)"
+          "Problem: spot breast cancer early, before it becomes harder to treat",
+          "Built the pipeline end to end, from data preparation and image processing to model training and evaluation",
+          "Compared three models: SVM and ANN on cell-nucleus measurements, and a CNN on mammogram images, with attention maps showing the regions behind each prediction",
+          "Served all three through a Flask web app that returns a prediction in real time",
+          "Worked with the client's other team to plan and deliver the features"
         ],
-        chips: ["TODO", "tech", "stack"],
-        outcome: "TODO: one-line result",
-        todo: true
+        chips: ["Python", "TensorFlow", "SVM", "ANN", "CNN", "Flask"],
+        outcome: "Up to 95% validation accuracy, delivered as a real-time Flask app"
       },
       {
         short: "Trigent · 2 yrs", when: "Aug 2022 – Jun 2024", phase: "Shipping for clients",
         tag: "Professional Experience", title: "Software Engineer (Full Stack)",
         where: "Trigent Software Solutions",
-        role: "Role: building and shipping enterprise web apps for international clients",
+        role: "Role: building and shipping features for an enterprise web product",
         points: [
-          "Built front ends in React and Angular with TypeScript",
-          "Developed back-end services with Node.js and NestJS",
-          "Designed and queried SQL Server and MySQL databases",
-          "Ran production workloads on AWS: Lambda, SQS, S3 and API Gateway",
-          "TODO: one measurable win (load time cut by X%, N features shipped)"
+          "Cut page load time by 30% by moving duplicated logic into shared, reusable service files",
+          "Built authentication, interactive maps with location clustering, and frequency-data processing from uploaded files",
+          "Built file upload and download across multiple storage locations",
+          "Built front ends in React and Angular with TypeScript, and back-end services with Node.js and NestJS",
+          "Designed and queried SQL Server and MySQL databases, and ran production workloads on AWS: Lambda, SQS, S3 and API Gateway"
         ],
         chips: ["React", "Angular", "TypeScript", "NestJS", "SQL Server", "AWS"],
-        outcome: "Two years of production code for international clients"
+        outcome: "30% faster load times across a production product"
       },
       {
         short: "Monash · MDS", when: "2024 – 2026", phase: "Levelling up in data",
@@ -448,26 +450,25 @@
         where: "Monash University, Melbourne",
         points: [
           "WildAtlas: owned end to end, from requirements to deployment and support. React 19 + TypeScript front end, tested with Vitest and Playwright",
-          "Clinical Diagnostic Classifier: SVM, ANN and CNN models served through Flask",
-          "Content Moderation Classifier: full Python pipeline from ingestion to evaluation",
+          "Content Moderation Classifier: end-to-end Python pipeline covering ingestion, preprocessing, TensorFlow modelling and evaluation, reaching F1 ~0.85 and served as a Flask web service with performance monitoring",
           "SQL Server Data Warehouse: bronze/silver/gold ETL with a star schema"
         ],
-        chips: ["Python", "scikit-learn", "TensorFlow", "Spark", "React 19"],
+        chips: ["Python", "TensorFlow", "Flask", "Spark", "SQL Server", "React 19"],
         link: { href: "https://wildatlas.live/dashboard", text: "Visit WildAtlas ↗" },
-        outcome: "Up to 95% validation accuracy and F1 ≈ 0.85 in production-style pipelines"
+        outcome: "WildAtlas shipped live, plus an F1 ~0.85 moderation model in a monitored service"
       },
       {
         short: "Biom", when: "Aug 2024 – Jun 2026", phase: "Building a platform",
         tag: "Biom Project", title: "Full Stack Developer & Data Engineer",
         where: "Biom · Monash Data Science & AI Society (part-time)",
-        role: "Role: data engineering and back end for a species-data platform",
+        role: "Role: data engineering and back end for a species-data platform, in a team of 5",
         points: [
-          "Built a Databricks + PySpark pipeline to ingest and clean species data",
-          "Built the Go and PostgreSQL back end that serves it",
-          "TODO: scale or impact (records processed, users, team size)"
+          "Built a Databricks + PySpark pipeline that ingests and cleans 6,000+ species records",
+          "Built the Go and PostgreSQL back end that serves the data",
+          "Platform is in active development ahead of launch"
         ],
         chips: ["Databricks", "PySpark", "Go", "PostgreSQL"],
-        outcome: "Species data turned into a queryable platform"
+        outcome: "6,000+ species records turned into a queryable platform"
       },
       {
         short: "Pfizer · Extern", when: "2026 – Now", phase: "Right now", live: true,
